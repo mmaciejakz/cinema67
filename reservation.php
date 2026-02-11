@@ -144,6 +144,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
     <title>Rezerwacja - Kino 67</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         .reservation-page {
             padding: 20px;

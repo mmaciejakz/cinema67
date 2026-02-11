@@ -31,6 +31,7 @@ $result = mysqli_query($conn, $sql);
     <title>Repertuar filmów - Kino 67</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         .movies-header {
             padding: 3rem 0 2rem;

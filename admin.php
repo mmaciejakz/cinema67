@@ -102,6 +102,7 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
     <title>Panel administracyjny - Kino 67</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         :root {
             --primary-dark: #0a0a0a;

@@ -43,6 +43,7 @@ $seats = json_decode($ticket['miejsca'], true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bilet - Kino 67</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         @media print {
             body * {

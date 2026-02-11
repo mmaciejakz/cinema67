@@ -75,6 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>Rejestracja - Kino 67</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         body {
             background: var(--primary-dark);

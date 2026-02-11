@@ -80,6 +80,7 @@ $result = mysqli_query($conn, $sql);
     <title>Moje rezerwacje - Kino 67</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         .reservations-page {
             max-width: 1200px;
