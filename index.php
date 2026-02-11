@@ -186,7 +186,7 @@ include 'connect.php';
 }
 
 .carousel-slide {
-    min-width: 300px;
+    min-width: 280px;
     height: 700px; 
     perspective: 1000px; 
 }
