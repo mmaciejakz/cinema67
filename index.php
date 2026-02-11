@@ -55,17 +55,27 @@ include 'connect.php';
             margin-bottom: 40px;
         }
         
-        .movie-card {
-            background: #1a1a1a;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s;
+        .movie-card .btn {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.3s ease;
+}
+
+        .movie-card:hover .btn {
+            opacity: 1;
+            transform: translateY(0);
         }
-        
-        .movie-card:hover {
-            transform: translateY(-5px);
+        .movie-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            pointer-events: none;
         }
-        
+
         .movie-poster {
             width: 100%;
             height: 300px;
@@ -74,6 +84,7 @@ include 'connect.php';
         
         .movie-info {
             padding: 15px;
+            transform: translateZ(40px);
         }
         
         .movie-title {
@@ -175,27 +186,41 @@ include 'connect.php';
 }
 
 .carousel-slide {
-    min-width: 300px;
-}
-.carousel-slide {
-    min-width: 300px;
-    max-width: 300px;
-    flex-shrink: 0;
+    min-width: 280px;
+    height: 700px; 
+    perspective: 1000px; 
 }
 
 .movie-card {
-    background: #1a1a1a;
-    border-radius: 10px;
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border-radius: 16px;
     overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transform-style: preserve-3d;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    height: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
+
+.movie-card:hover {
+    transform: rotateY(6deg) rotateX(4deg) scale(1.05);
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.7),
+        0 0 20px rgba(59,130,246,0.4);
+}
+
 
 .movie-poster {
     width: 100%;
-    height: 420px;   /* STAŁA wysokość plakatu */
+    height: 420px;
     object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.movie-card:hover .movie-poster {
+    transform: scale(1.08);
 }
 
 .movie-info {
