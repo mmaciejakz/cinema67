@@ -121,6 +121,102 @@ include 'connect.php';
             width: 100%;
             border-radius: 10px;
         }
+        .movies-carousel-section {
+    padding: 60px 20px;
+    background-color: #0f172a;
+}
+
+.carousel-container {
+    position: relative;  
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between; 
+    padding: 0 10px;
+    z-index: 5;
+    pointer-events: none; 
+}
+
+.carousel-btn {
+    pointer-events: auto; 
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 1.6em;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease;
+    padding-bottom: 8.5px;
+}
+
+.carousel-btn:hover {
+    background:#3b82f6;
+    transform: scale(1.1);
+}
+
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 300px;
+}
+.carousel-slide {
+    min-width: 300px;
+    max-width: 300px;
+    flex-shrink: 0;
+}
+
+.movie-card {
+    background: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.movie-poster {
+    width: 100%;
+    height: 420px;   /* STAŁA wysokość plakatu */
+    object-fit: cover;
+}
+
+.movie-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.movie-title {
+    min-height: 48px; /* rezerwuje miejsce na 2 linie tytułu */
+}
+
+.movie-meta {
+    min-height: 40px;
+}
+
+.movie-info p {
+    flex-grow: 1;   /* opis rozciąga przestrzeń */
+}
+
+
         
         @media (max-width: 768px) {
             .about-content {
@@ -148,49 +244,70 @@ include 'connect.php';
         <p>Najnowsze premiery, komfortowe sale i niezapomniane wrażenia. Zarezerwuj bilety online już teraz!</p>
         <a href="movies.php" class="btn btn-primary">Zobacz repertuar</a>
     </section>
+    <section class="movies-carousel-section">
+    <h2 class="section-title">Aktualnie w kinie</h2>
+
+    <?php
+    $sql = "SELECT f.*, k.kategoria FROM filmy f 
+            LEFT JOIN kategorie k ON f.id_kategorii = k.id_kategorii 
+            ORDER BY f.id_filmu DESC LIMIT 6";
+    $result = mysqli_query($conn, $sql);
+
+    if(mysqli_num_rows($result) > 0):
+
+        $movies = [];
+        while($row = mysqli_fetch_assoc($result)) {
+            $movies[] = $row;
+        }
+    ?>
     
-    <section class="movies-section">
-        <h2 class="section-title">Aktualnie w kinie</h2>
-        
-        <div class="movies-grid">
+    <div class="carousel-container">
+        <div class="carousel-track" id="movieCarousel">
             <?php
-            $sql = "SELECT f.*, k.kategoria FROM filmy f 
-                    LEFT JOIN kategorie k ON f.id_kategorii = k.id_kategorii 
-                    ORDER BY f.id_filmu DESC LIMIT 6";
-            $result = mysqli_query($conn, $sql);
-            
-            if(mysqli_num_rows($result) > 0) {
-                while($row = mysqli_fetch_assoc($result)) {
-                    echo '
+            // Podwójne wyświetlenie dla płynnej pętli
+            for ($i = 0; $i < 2; $i++):
+                foreach($movies as $row):
+            ?>
+                <div class="carousel-slide">
                     <div class="movie-card">
-                        <img src="' . $row['zdjecie'] . '" alt="' . $row['tytul'] . '" class="movie-poster"
-                             onerror="this.src=\'https://via.placeholder.com/300x450?text=Brak+plakatu\'">
+                        <img src="<?= htmlspecialchars($row['zdjecie']) ?>"
+                             alt="<?= htmlspecialchars($row['tytul']) ?>"
+                             class="movie-poster"
+                             onerror="this.src='https://via.placeholder.com/300x450?text=Brak+plakatu'">
+
                         <div class="movie-info">
-                            <h3 class="movie-title">' . $row['tytul'] . '</h3>
+                            <h3 class="movie-title"><?= htmlspecialchars($row['tytul']) ?></h3>
+
                             <div class="movie-meta">
-                                <span><i class="fas fa-user"></i> ' . $row['autor'] . '</span>
-                                <span class="category-badge">' . $row['kategoria'] . '</span>
+                                <span><i class="fas fa-user"></i> <?= htmlspecialchars($row['autor']) ?></span>
+                                <span class="category-badge"><?= htmlspecialchars($row['kategoria']) ?></span>
                             </div>
+
                             <p style="color: #94a3b8; font-size: 0.9em; margin-bottom: 15px;">
-                                ' . substr($row['opis'], 0, 100) . '...
+                                <?= substr($row['opis'], 0, 100) ?>...
                             </p>
-                            <a href="movie.php?id=' . $row['id_filmu'] . '" class="btn btn-primary" style="width: 100%;">
+
+                            <a href="movie.php?id=<?= $row['id_filmu'] ?>" class="btn btn-primary" style="width: 100%;">
                                 <i class="fas fa-ticket-alt"></i> Zobacz seanse
                             </a>
                         </div>
-                    </div>';
-                }
-            } else {
-                echo '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1;">Brak filmów w repertuarze</p>';
-            }
+                    </div>
+                </div>
+            <?php 
+                endforeach;
+            endfor;
             ?>
         </div>
-        
-        <div style="text-align: center;">
-            <a href="movies.php" class="btn btn-secondary">
-                <i class="fas fa-list"></i> Zobacz wszystkie filmy
-            </a>
+
+        <div class="carousel-controls">
+            <button class="carousel-btn prev-btn" onclick="moveCarousel(1)">‹</button>
+            <button class="carousel-btn next-btn" onclick="moveCarousel(-1)">›</button>
         </div>
+    </div>
+
+    <?php else: ?>
+        <p style="text-align:center; color:#94a3b8;">Brak filmów w repertuarze</p>
+    <?php endif; ?>
     </section>
     
     <section class="about-section">
@@ -216,5 +333,48 @@ include 'connect.php';
     </section>
     
     <?php include 'footer.php'; ?>
+<script>
+let currentPosition = 0;
+let slideWidth = 320;
+let autoScrollInterval;
+const carouselTrack = document.getElementById('movieCarousel');
+
+function moveCarousel(direction) {
+    stopAutoScroll();
+
+    const maxPosition = -slideWidth * (carouselTrack.children.length / 2);
+    currentPosition += direction * slideWidth;
+
+    if (currentPosition > 0) {
+        currentPosition = maxPosition;
+    }
+
+    if (currentPosition < maxPosition) {
+        currentPosition = 0;
+    }
+
+    carouselTrack.style.transform = `translateX(${currentPosition}px)`;
+    setTimeout(startAutoScroll, 5000);
+}
+
+function startAutoScroll() {
+    if (autoScrollInterval) clearInterval(autoScrollInterval);
+    autoScrollInterval = setInterval(() => {
+        moveCarousel(-1);
+    }, 3000);
+}
+
+function stopAutoScroll() {
+    if (autoScrollInterval) {
+        clearInterval(autoScrollInterval);
+        autoScrollInterval = null;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    startAutoScroll();
+});
+</script>
+
 </body>
 </html>
