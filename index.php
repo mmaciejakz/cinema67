@@ -97,14 +97,6 @@ include 'connect.php';
             margin-right: 5px;
         }
         
-        .promo-section {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-            padding: 40px 20px;
-            text-align: center;
-            color: white;
-            margin: 40px 0;
-        }
-        
         .about-section {
             padding: 40px 20px;
             max-width: 1200px;
@@ -201,29 +193,13 @@ include 'connect.php';
         </div>
     </section>
     
-    <section class="promo-section">
-        <h2 style="margin-bottom: 20px;">Specjalna oferta!</h2>
-        <p style="font-size: 1.2em; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
-            Kup 3 bilety, czwarty otrzymasz za darmo! Promocja obowiązuje do końca miesiąca.
-        </p>
-        <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
-            <a href="movies.php" class="btn btn-primary" style="background: white; color: #1e40af;">
-                <i class="fas fa-ticket-alt"></i> Zarezerwuj bilety
-            </a>
-        <?php else: ?>
-            <a href="register.php" class="btn btn-primary" style="background: white; color: #1e40af;">
-                <i class="fas fa-user-plus"></i> Załóż konto i zyskaj zniżki!
-            </a>
-        <?php endif; ?>
-    </section>
-    
     <section class="about-section">
         <h2 class="section-title">O naszym kinie</h2>
         <div class="about-content">
             <div class="about-text">
                 <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 20px;">
                     Kino 67 to nowoczesne kino, które oferuje najlepsze doświadczenia filmowe. 
-                    Dysponujemy 4 komfortowymi salami wyposażonymi w najnowocześniejsze systemy dźwięku i obrazu.
+                    Dysponujemy komfortowymi salami wyposażonymi w najnowocześniejsze systemy dźwięku i obrazu.
                 </p>
                 <ul style="color: #94a3b8; list-style: none; padding: 0;">
                     <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: #3b82f6; margin-right: 10px;"></i> Najnowsze premiery filmowe</li>
@@ -233,7 +209,7 @@ include 'connect.php';
                 </ul>
             </div>
             <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                <img src="https://img.freepik.com/free-photo/3d-cinema-theatre-room-with-seating_23-2151005451.jpg" 
                      alt="Nasze kino">
             </div>
         </div>

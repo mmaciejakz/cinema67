@@ -24,23 +24,12 @@
                 <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
                     <a href="#" style="color: var(--accent-blue);"><i class="fab fa-facebook fa-2x"></i></a>
                     <a href="#" style="color: var(--accent-blue);"><i class="fab fa-instagram fa-2x"></i></a>
-                    <a href="#" style="color: var(--accent-blue);"><i class="fab fa-twitter fa-2x"></i></a>
                     <a href="#" style="color: var(--accent-blue);"><i class="fab fa-youtube fa-2x"></i></a>
-                </div>
-                <h3>Newsletter</h3>
-                <p style="color: var(--text-gray);">Zapisz się do newslettera</p>
-                <div style="display: flex; margin-top: 0.5rem;">
-                    <input type="email" placeholder="Twój email" 
-                           style="flex: 1; padding: 0.5rem; background: var(--primary-dark); border: 1px solid #333; color: white; border-radius: 4px 0 0 4px;">
-                    <button style="background: var(--primary-blue); color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 0 4px 4px 0;">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
                 </div>
             </div>
         </div>
         <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #333; color: var(--text-gray);">
-            <p>&copy; <?php echo date('Y'); ?> Kino 67. Wszelkie prawa zastrzeżone.</p>
-            <p>Projekt edukacyjny - system rezerwacji biletów kinowych</p>
+            <p>Kino 67</p>
         </div>
     </div>
 </footer>

@@ -546,7 +546,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                                 <th>Reżyser</th>
                                 <th>Kategoria</th>
                                 <th>Czas</th>
-                                <th>Akcje</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -564,13 +563,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                                         <td>{$row['autor']}</td>
                                         <td>{$row['kategoria']}</td>
                                         <td>{$row['czas_trwania']} min</td>
-                                        <td class='action-buttons'>
-                                            <a href='admin.php?delete_movie={$row['id_filmu']}' 
-                                               class='btn btn-secondary btn-small'
-                                               onclick='return confirm(\"Czy na pewno chcesz usunąć ten film?\")'>
-                                                <i class='fas fa-trash'></i> Usuń
-                                            </a>
-                                        </td>
                                     </tr>";
                                 }
                             } else {

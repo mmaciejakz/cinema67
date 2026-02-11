@@ -10,6 +10,14 @@
     <title>Kino 67</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .nav-links{
+            display: flex;
+            align-items: center;      /* wyrównanie w pionie */
+            gap: 20px;                /* równe odstępy między przyciskami */
+            white-space: nowrap;      /* żeby tekst się nie łamał */
+        }
+    </style>
 </head>
 <body>
 <!-- Nagłówek i nawigacja -->

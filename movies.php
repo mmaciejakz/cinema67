@@ -92,20 +92,6 @@ $result = mysqli_query($conn, $sql);
             </p>
         </div>
         
-        <!-- Wyszukiwarka -->
-        <form method="GET" action="" class="search-container">
-            <input type="text" name="search" placeholder="Szukaj filmu, reżysera..." 
-                   class="search-input" value="<?php echo htmlspecialchars($search_query); ?>">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i> Szukaj
-            </button>
-            <?php if($search_query || $category_filter): ?>
-                <a href="movies.php" class="btn btn-secondary">
-                    <i class="fas fa-times"></i> Wyczyść
-                </a>
-            <?php endif; ?>
-        </form>
-        
         <!-- Filtry kategorii -->
         <div class="categories-filter">
             <a href="movies.php" class="category-btn <?php echo !$category_filter ? 'active' : ''; ?>">
