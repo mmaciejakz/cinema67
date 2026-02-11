@@ -1,6 +1,5 @@
 <!-- header.php - NAPRAWIONY -->
 <?php
-// header.php - TYLKO deklarujemy zmienne sesji, nie uruchamiamy session_start ponownie!
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -29,7 +28,6 @@
             <ul class="nav-links">
                 <li><a href="index.php"><i class="fas fa-home"></i> Strona główna</a></li>
                 <li><a href="movies.php"><i class="fas fa-film"></i> Repertuar</a></li>
-                <li><a href="#premiery"><i class="fas fa-star"></i> Premiary</a></li>
                 <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
                     <li><a href="user_reservations.php"><i class="fas fa-ticket-alt"></i> Moje rezerwacje</a></li>
                     <?php if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1): ?>

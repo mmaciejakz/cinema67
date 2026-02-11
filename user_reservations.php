@@ -360,8 +360,7 @@ $result = mysqli_query($conn, $sql);
                 <i class="fas fa-ticket-alt"></i>
                 <h3>Brak rezerwacji</h3>
                 <p>Nie masz jeszcze żadnych rezerwacji.</p>
-                <a href="movies.php" class="btn btn-primary" style="margin-top: 20px;">
-                    <i class="fas fa-film"></i> Zobacz repertuar
+                <a href="movies.php" class="btn btn-primary" style="margin-top: 20px;"> Zobacz repertuar
                 </a>
             </div>
         <?php endif; ?>
