@@ -241,6 +241,85 @@ include 'connect.php';
 .movie-info p {
     flex-grow: 1;   /* opis rozciąga przestrzeń */
 }
+.premiere-section {
+    position: relative;
+    margin-bottom: 60px;
+    padding-top: 60px;
+}
+
+.premiere-banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    max-width: 1800px;
+    margin: 0 auto;
+}
+
+.premiere-banner img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.premiere-banner:hover img {
+    transform: scale(1.05);
+}
+
+.premiere-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    backdrop-filter: brightness(0.35);
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.premiere-info h2 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #3b82f6;
+}
+
+.premiere-info p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.countdown div {
+    background: rgba(0,0,0,0.6);
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.pulsate {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    border-radius: 50px;
+    background: #3b82f6;
+    color: #fff;
+    text-decoration: none;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 rgba(59,130,246,0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(59,130,246,0.9); }
+    100% { transform: scale(1); box-shadow: 0 0 0 rgba(59,130,246,0.7); }
+}
+
 
 
         
@@ -290,7 +369,7 @@ include 'connect.php';
     <div class="carousel-container">
         <div class="carousel-track" id="movieCarousel">
             <?php
-            // Podwójne wyświetlenie dla płynnej pętli
+
             for ($i = 0; $i < 2; $i++):
                 foreach($movies as $row):
             ?>
@@ -335,7 +414,23 @@ include 'connect.php';
         <p style="text-align:center; color:#94a3b8;">Brak filmów w repertuarze</p>
     <?php endif; ?>
     </section>
-    
+       <section class="premiere-section">
+    <div class="premiere-banner">
+        <img src="https://movienews.pl/wp-content/uploads/2022/03/Szybcy-i-wsciekli-po-kolei.jpg" 
+             alt="Premiera tygodnia">
+        <div class="premiere-info">
+            <h2>Premiera tygodnia: <span>Super Film 2026</span></h2>
+            <p>Nie przegap największego hitu roku w naszym kinie!</p>
+            <div class="countdown">
+                <div><span id="days">0</span>Dni</div>
+                <div><span id="hours">0</span>Godz</div>
+                <div><span id="minutes">0</span>Min</div>
+                <div><span id="seconds">0</span>Sek</div>
+            </div>
+            <a href="movie.php?id=1" class="btn btn-primary pulsate">Kup bilet</a>
+        </div>
+    </div>
+</section> 
     <section class="about-section">
         <h2 class="section-title">O naszym kinie</h2>
         <div class="about-content">
@@ -401,6 +496,31 @@ document.addEventListener('DOMContentLoaded', () => {
     startAutoScroll();
 });
 </script>
+<script>
+// ustaw datę premiery
+const premiereDate = new Date("2026-02-20T20:00:00").getTime();
+
+const countdownInterval = setInterval(() => {
+    const now = new Date().getTime();
+    const distance = premiereDate - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = hours;
+    document.getElementById("minutes").innerText = minutes;
+    document.getElementById("seconds").innerText = seconds;
+
+    if (distance < 0) {
+        clearInterval(countdownInterval);
+        document.querySelector(".countdown").innerHTML = "Premiera już trwa!";
+    }
+}, 1000);
+</script>
+</body>
 
 </body>
 </html>
