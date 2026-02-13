@@ -1,5 +1,5 @@
 <?php
-// reservation.php - UPROSZCZONY
+
 session_start();
 include 'connect.php';
 
@@ -15,7 +15,7 @@ if(!isset($_GET['seans_id'])) {
 
 $seans_id = mysqli_real_escape_string($conn, $_GET['seans_id']);
 
-// Pobierz informacje o seansie
+
 $sql = "SELECT s.*, f.tytul, f.zdjecie, sa.sala, sa.liczba_miejsc 
         FROM seanse s
         JOIN filmy f ON s.id_filmu = f.id_filmu
@@ -30,7 +30,6 @@ if(mysqli_num_rows($result) == 0) {
 
 $seans = mysqli_fetch_assoc($result);
 
-// Pobierz zarezerwowane miejsca (tylko z aktywnych rezerwacji)
 $sql_reserved = "SELECT rm.numer_miejsca 
                  FROM rezerwacje_miejsc rm
                  JOIN rezerwacje r ON rm.id_rezerwacji = r.id_rezerwacji
@@ -41,7 +40,6 @@ while($seat = mysqli_fetch_assoc($result_reserved)) {
     $reserved_seats[] = $seat['numer_miejsca'];
 }
 
-// Przetwarzanie rezerwacji
 $error = "";
 $success = "";
 $reservation_code = "";
@@ -55,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserve'])) {
         if(count($selected_seats) > 6) {
             $error = "Możesz zarezerwować maksymalnie 6 miejsc";
         } else {
-            // Sprawdź czy miejsca są dostępne
+     
             $all_available = true;
             $unavailable_seats = [];
             
@@ -69,18 +67,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserve'])) {
             if(!$all_available) {
                 $error = "Następujące miejsca są już zajęte: " . implode(', ', $unavailable_seats);
             } else {
-                // Zamień tablicę na string
+          
                 $seats_string = implode(',', $selected_seats);
                 $total_price = count($selected_seats) * $seans['cena_biletu'];
                 
-                // Generuj kod rezerwacji
+            
                 $reservation_code = strtoupper(substr(md5(uniqid()), 0, 8));
                 
-                // Rozpocznij transakcję
+              
                 mysqli_begin_transaction($conn);
                 
                 try {
-                    // 1. Utwórz rezerwację
+               
                     $sql_insert = "INSERT INTO rezerwacje (id_user, id_seansu, miejsca, status, kod_rezerwacji, cena_laczna) 
                                    VALUES ('{$_SESSION['user_id']}', '$seans_id', '$seats_string', 'active', '$reservation_code', '$total_price')";
                     
@@ -90,7 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserve'])) {
                     
                     $reservation_id = mysqli_insert_id($conn);
                     
-                    // 2. Zarezerwuj każde miejsce
+             
                     foreach($selected_seats as $seat) {
                         $sql_seat = "INSERT INTO rezerwacje_miejsc (id_rezerwacji, id_seansu, numer_miejsca) 
                                      VALUES ('$reservation_id', '$seans_id', '$seat')";
@@ -100,7 +98,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserve'])) {
                         }
                     }
                     
-                    // 3. Zaktualizuj status miejsc w sali
+          
                     foreach($selected_seats as $seat) {
                         $sql_update = "UPDATE miejsca_w_salach 
                                        SET status = 'zarezerwowane'
@@ -110,13 +108,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserve'])) {
                         mysqli_query($conn, $sql_update);
                     }
                     
-                    // Zatwierdź transakcję
+         
                     mysqli_commit($conn);
                     
                     $success = "Rezerwacja zakończona pomyślnie!";
                     
                 } catch (Exception $e) {
-                    // Wycofaj transakcję
+         
                     mysqli_rollback($conn);
                     $error = "Wystąpił błąd podczas rezerwacji: " . $e->getMessage();
                 }
@@ -125,7 +123,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['reserve'])) {
     }
 }
 
-// Pobierz układ sali
+
 $sql_layout = "SELECT * FROM miejsca_w_salach 
                WHERE id_sali = (SELECT id_sali FROM seanse WHERE id_seansu = '$seans_id')
                ORDER BY rzad, numer";
@@ -360,7 +358,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
         <?php endif; ?>
         
         <?php if(empty($success)): ?>
-        <!-- Nagłówek rezerwacji -->
+
         <div class="reservation-header">
             <img src="<?php echo $seans['zdjecie']; ?>" alt="<?php echo $seans['tytul']; ?>"
                  onerror="this.src='https://via.placeholder.com/150x200?text=Brak+plakatu'">
@@ -375,7 +373,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
             </div>
         </div>
         
-        <!-- Mapa miejsc -->
+
         <div class="seat-map-container">
             <h2 style="text-align: center; color: #3b82f6; margin-bottom: 20px;">
                 Wybierz miejsca
@@ -404,7 +402,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
                 
                 <div id="selectedSeatsInputs"></div>
                 
-                <!-- Legenda -->
+
                 <div class="seat-legend">
                     <div class="legend-item">
                         <div class="legend-color" style="background: #3b82f6;"></div>
@@ -420,7 +418,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
                     </div>
                 </div>
                 
-                <!-- Wybrane miejsca -->
+
                 <div class="selected-seats">
                     <h3>Wybrane miejsca: <span id="selectedCount">0</span></h3>
                     <div class="selected-seats-list" id="selectedSeatsList">
@@ -428,7 +426,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
                     </div>
                 </div>
                 
-                <!-- Podsumowanie -->
+
                 <div class="summary">
                     <h3>Podsumowanie</h3>
                     <div class="summary-item">
@@ -466,7 +464,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
             const index = selectedSeats.indexOf(seatNumber);
             
             if(index === -1) {
-                // Dodaj miejsce
+                
                 if(selectedSeats.length < maxSeats) {
                     selectedSeats.push(seatNumber);
                     element.classList.remove('available');
@@ -475,7 +473,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
                     alert(`Możesz wybrać maksymalnie ${maxSeats} miejsc.`);
                 }
             } else {
-                // Usuń miejsce
+   
                 selectedSeats.splice(index, 1);
                 element.classList.remove('selected');
                 element.classList.add('available');
@@ -485,7 +483,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
         }
         
         function updateSelectedSeats() {
-            // Aktualizuj ukryte pola formularza - osobne pole dla każdego miejsca
+    
             const inputsContainer = document.getElementById('selectedSeatsInputs');
             inputsContainer.innerHTML = '';
             selectedSeats.forEach(seat => {
@@ -496,7 +494,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
                 inputsContainer.appendChild(input);
             });
             
-            // Aktualizuj listę wybranych miejsc
+  
             const selectedList = document.getElementById('selectedSeatsList');
             const selectedCount = document.getElementById('selectedCount');
             const seatCount = document.getElementById('seatCount');
@@ -515,7 +513,7 @@ while($seat = mysqli_fetch_assoc($result_layout)) {
             totalPrice.textContent = (selectedSeats.length * pricePerSeat).toFixed(2) + ' zł';
         }
         
-        // Zapobiegaj wielokrotnemu wysłaniu formularza
+
         document.getElementById('reservationForm').addEventListener('submit', function(e) {
             if(selectedSeats.length === 0) {
                 e.preventDefault();
