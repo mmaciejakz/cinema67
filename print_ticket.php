@@ -1,5 +1,4 @@
 <?php
-// print_ticket.php
 session_start();
 include 'connect.php';
 
@@ -16,7 +15,6 @@ if(!isset($_GET['id'])) {
 $reservation_id = mysqli_real_escape_string($conn, $_GET['id']);
 $user_id = $_SESSION['user_id'];
 
-// Pobierz szczegóły rezerwacji
 $sql = "SELECT r.*, f.tytul, f.zdjecie, f.czas_trwania, 
                s.data, s.cena_biletu, sa.sala,
                u.username, u.email
@@ -253,7 +251,6 @@ $seats = json_decode($ticket['miejsca'], true);
     </button>
     
     <script>
-        // Automatycznie uruchom drukowanie po załadowaniu strony
         window.onload = function() {
             setTimeout(function() {
                 window.print();
