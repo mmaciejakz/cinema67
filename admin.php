@@ -1,8 +1,7 @@
 <?php 
-// admin.php - NAPRAWIONY
 session_start();
 
-// NAJPIERW sprawdź sesję, POTEM połącz z bazą
+
 if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: login.php");
     exit;
@@ -13,13 +12,13 @@ if(!isset($_SESSION['admin']) || $_SESSION['admin'] != 1) {
     exit;
 }
 
-// Teraz dopiero łączymy z bazą
+
 include 'connect.php';
 
 $message = "";
 $message_type = "";
 
-// Dodawanie filmu
+
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_movie'])) {
     $tytul = mysqli_real_escape_string($conn, $_POST['tytul']);
     $autor = mysqli_real_escape_string($conn, $_POST['autor']);
@@ -41,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_movie'])) {
     }
 }
 
-// Dodawanie seansu
+
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_seans'])) {
     $id_filmu = mysqli_real_escape_string($conn, $_POST['id_filmu']);
     $id_sali = mysqli_real_escape_string($conn, $_POST['id_sali']);
@@ -60,7 +59,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_seans'])) {
     }
 }
 
-// Proste usuwanie filmu (bez procedur)
+
 if(isset($_GET['delete_movie'])) {
     $movie_id = mysqli_real_escape_string($conn, $_GET['delete_movie']);
     $sql = "DELETE FROM filmy WHERE id_filmu = '$movie_id'";
@@ -76,7 +75,7 @@ if(isset($_GET['delete_movie'])) {
     }
 }
 
-// Pobierz statystyki
+
 $sql_filmy = "SELECT COUNT(*) as count FROM filmy";
 $result = mysqli_query($conn, $sql_filmy);
 $filmy_count = mysqli_fetch_assoc($result)['count'];
@@ -381,7 +380,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
 </head>
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
         <div class="admin-sidebar">
             <div class="sidebar-header">
                 <h3><i class="fas fa-cog"></i> Panel Admina</h3>
@@ -411,7 +409,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
             </ul>
         </div>
         
-        <!-- Content -->
         <div class="admin-content">
             <div class="content-header">
                 <h1><i class="fas fa-cog"></i> Panel administracyjny</h1>
@@ -424,7 +421,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 </div>
             <?php endif; ?>
             
-            <!-- Dashboard -->
             <div id="dashboard" class="tab-content active">
                 <div class="section">
                     <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
@@ -457,7 +453,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 </div>
             </div>
             
-            <!-- Filmy -->
             <div id="movies" class="tab-content">
                 <div class="section">
                     <div class="section-header">
@@ -467,7 +462,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                         </button>
                     </div>
                     
-                    <!-- Formularz filmu -->
                     <div id="movieForm" style="display: none; margin-bottom: 30px; padding: 20px; background: var(--primary-dark); border-radius: 8px;">
                         <h3 style="color: var(--accent-blue); margin-bottom: 20px;">
                             <i class="fas fa-plus-circle"></i> Dodaj nowy film
@@ -537,7 +531,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                         </form>
                     </div>
                     
-                    <!-- Lista filmów -->
                     <h3 style="color: var(--accent-blue); margin-bottom: 20px;">Lista filmów</h3>
                     <table>
                         <thead>
@@ -575,7 +568,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 </div>
             </div>
             
-            <!-- Seanse -->
             <div id="seanse" class="tab-content">
                 <div class="section">
                     <div class="section-header">
@@ -585,7 +577,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                         </button>
                     </div>
                     
-                    <!-- Formularz seansu -->
                     <div id="seansForm" style="display: none; margin-bottom: 30px; padding: 20px; background: var(--primary-dark); border-radius: 8px;">
                         <h3 style="color: var(--accent-blue); margin-bottom: 20px;">
                             <i class="fas fa-plus-circle"></i> Dodaj nowy seans
@@ -641,7 +632,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                         </form>
                     </div>
                     
-                    <!-- Lista seansów -->
                     <h3 style="color: var(--accent-blue); margin-bottom: 20px;">Nadchodzące seanse</h3>
                     <table>
                         <thead>
@@ -682,12 +672,10 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 </div>
             </div>
             
-            <!-- Kategorie -->
             <div id="categories" class="tab-content">
                 <div class="section">
                     <h2><i class="fas fa-tags"></i> Zarządzanie kategoriami</h2>
                     
-                    <!-- Lista kategorii -->
                     <table>
                         <thead>
                             <tr>
@@ -722,7 +710,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 </div>
             </div>
             
-            <!-- Użytkownicy -->
             <div id="users" class="tab-content">
                 <div class="section">
                     <h2><i class="fas fa-users"></i> Zarządzanie użytkownikami</h2>
@@ -761,7 +748,6 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 </div>
             </div>
             
-            <!-- Rezerwacje -->
             <div id="reservations" class="tab-content">
                 <div class="section">
                     <h2><i class="fas fa-ticket-alt"></i> Zarządzanie rezerwacjami</h2>
@@ -818,15 +804,15 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
     
     <script>
         function showTab(tabId) {
-            // Ukryj wszystkie zakładki
+
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Pokaż wybraną zakładkę
+
             document.getElementById(tabId).classList.add('active');
             
-            // Aktualizuj aktywne linki
+
             document.querySelectorAll('.sidebar-menu a').forEach(link => {
                 link.classList.remove('active');
             });
@@ -842,7 +828,7 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
             const form = document.getElementById('seansForm');
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
             
-            // Ustaw domyślną datę (jutro o 18:00)
+
             if(form.style.display === 'block') {
                 const tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -858,8 +844,7 @@ $reservations_count = mysqli_fetch_assoc($result)['count'];
                 dateInput.value = `${year}-${month}-${day}T${hours}:${minutes}`;
             }
         }
-        
-        // Ustaw pierwszą zakładkę jako aktywną
+
         document.addEventListener('DOMContentLoaded', function() {
             showTab('dashboard');
         });
