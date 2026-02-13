@@ -1,9 +1,7 @@
 <?php 
-// register.php - NAPRAWIONY
 session_start();
 include 'connect.php';
 
-// Jeśli użytkownik jest już zalogowany, przekieruj
 if (isset($_SESSION["logged_in"]) && $_SESSION['logged_in'] === true) {
     header("Location: index.php");
     exit;
@@ -18,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $password = mysqli_real_escape_string($conn, $_POST["password"]);
     $confirmPassword = mysqli_real_escape_string($conn, $_POST["confirmPassword"]);  
     
-    // Walidacja
+
     if(empty($username) || empty($email) || empty($password)) {
         $error = "Wszystkie pola są wymagane";
     } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -28,14 +26,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } elseif($password !== $confirmPassword){
         $error = "Hasła różnią się";  
     } else {
-        // Sprawdź czy użytkownik już istnieje
+
         $sql = "SELECT * FROM `users` WHERE username = '$username' OR email = '$email'";
         $result = mysqli_query($conn, $sql);    
         
         if(mysqli_num_rows($result) > 0){
             $error = "Nazwa użytkownika lub email jest już zajęty";
         } else {
-            // Rejestracja użytkownika
+
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO `users` (`username`, `password`, `email`) 
                     VALUES ('$username','$hashedPassword','$email')";
@@ -43,17 +41,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if(mysqli_query($conn, $sql)){
                 $success = "Konto zostało utworzone pomyślnie! Za chwilę zostaniesz przekierowany...";
                 
-                // Pobierz ID nowego użytkownika
+
                 $new_user_id = mysqli_insert_id($conn);
                 
-                // Automatyczne logowanie po rejestracji
+
                 $_SESSION["logged_in"] = true;
                 $_SESSION["username"] = $username;
                 $_SESSION["user_id"] = $new_user_id;
                 $_SESSION["email"] = $email;
                 $_SESSION["admin"] = 0;
                 
-                // Przekierowanie po 2 sekundach
+
                 echo '<script>
                     setTimeout(function() {
                         window.location.href = "index.php";
@@ -180,7 +178,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <?php 
-    // Używamy tej samej metody co w login.php
+
     $show_header = true;
     include 'header.php'; 
     ?>
