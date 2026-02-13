@@ -1,5 +1,4 @@
 <?php 
-// movie.php
 session_start();
 include 'connect.php';
 
@@ -21,7 +20,6 @@ if(mysqli_num_rows($result) == 0) {
 
 $movie = mysqli_fetch_assoc($result);
 
-// Pobierz seanse dla tego filmu
 $sql_seanse = "SELECT s.*, sa.sala, sa.liczba_miejsc,
                (sa.liczba_miejsc - COUNT(DISTINCT rm.numer_miejsca)) as wolne_miejsca
                FROM seanse s 
@@ -188,7 +186,7 @@ $seanse = mysqli_query($conn, $sql_seanse);
                             $wolne_miejsca = $seans['wolne_miejsca'] ?? $seans['liczba_miejsc'];
                             $percent_available = ($wolne_miejsca / $seans['liczba_miejsc']) * 100;
                             
-                            // Określ status dostępności miejsc
+                        
                             if ($wolne_miejsca <= 0) {
                                 $seat_class = "seat-sold-out";
                                 $seat_text = "Wyprzedane";
