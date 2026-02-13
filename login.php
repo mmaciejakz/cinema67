@@ -1,10 +1,7 @@
 <?php 
-// login.php - NAPRAWIONY
-// SESJA MUSI BYĆ NA SAMYM CZUBKU!
 session_start();
 include 'connect.php';
 
-// Jeśli użytkownik jest już zalogowany, przekieruj
 if (isset($_SESSION["logged_in"]) && $_SESSION['logged_in'] === true) {
     if(isset($_SESSION['admin']) && $_SESSION['admin'] == 1) {
         header("Location: admin.php");
@@ -25,15 +22,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     if(mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
         if(password_verify($password, $user["password"])) {
-            // USTAW SESJĘ POPRAWNIE
+
             $_SESSION["logged_in"] = true;
             $_SESSION["username"] = $user['username'];
             $_SESSION["user_id"] = $user['id'];
             $_SESSION["email"] = $user['email'];
             $_SESSION["admin"] = $user['admin'];
             
-            // Debug - pokaż co jest w sesji
-            // echo "<pre>"; print_r($_SESSION); echo "</pre>";
+
             
             if($user["admin"] == 1) {
                 header("Location: admin.php");
@@ -136,9 +132,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <!-- Wstawiamy header.php bez session_start -->
+
     <?php 
-    // Usuwamy session_start z include, bo już jest na górze
     $show_header = true;
     include 'header.php'; 
     ?>
