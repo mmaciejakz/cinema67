@@ -1,5 +1,4 @@
-<!-- footer.php - NAPRAWIONY -->
-<!-- Stopka -->
+
 <footer id="kontakt">
     <div class="container">
         <div class="footer-content">
