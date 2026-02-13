@@ -1,4 +1,3 @@
-<!-- header.php - NAPRAWIONY -->
 <?php
 ?>
 <!DOCTYPE html>
@@ -13,14 +12,14 @@
     <style>
         .nav-links{
             display: flex;
-            align-items: center;      /* wyrównanie w pionie */
-            gap: 20px;                /* równe odstępy między przyciskami */
-            white-space: nowrap;      /* żeby tekst się nie łamał */
+            align-items: center;
+            gap: 20px;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
-<!-- Nagłówek i nawigacja -->
+
 <header>
     <div class="container">
         <nav>
