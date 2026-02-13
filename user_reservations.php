@@ -1,5 +1,5 @@
 <?php
-// user_reservations.php - UPROSZCZONY
+
 session_start();
 include 'connect.php';
 
@@ -10,11 +10,11 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 $user_id = $_SESSION['user_id'];
 
-// Anulowanie rezerwacji
+
 if(isset($_GET['cancel'])) {
     $reservation_id = mysqli_real_escape_string($conn, $_GET['cancel']);
     
-    // Sprawdź czy rezerwacja należy do użytkownika
+    
     $sql_check = "SELECT r.*, s.data FROM rezerwacje r
                   JOIN seanse s ON r.id_seansu = s.id_seansu
                   WHERE r.id_rezerwacji = '$reservation_id' AND r.id_user = '$user_id'";
@@ -23,16 +23,16 @@ if(isset($_GET['cancel'])) {
     if(mysqli_num_rows($result_check) > 0) {
         $reservation = mysqli_fetch_assoc($result_check);
         
-        // Sprawdź czy seans jeszcze się nie odbył
+   
         if(strtotime($reservation['data']) > time()) {
             mysqli_begin_transaction($conn);
             
             try {
-                // 1. Zaktualizuj status rezerwacji
+    
                 $sql_update = "UPDATE rezerwacje SET status = 'cancelled' WHERE id_rezerwacji = '$reservation_id'";
                 mysqli_query($conn, $sql_update);
                 
-                // 2. Zwolnij miejsca
+         
                 $seats = explode(',', $reservation['miejsca']);
                 foreach($seats as $seat) {
                     $sql_free = "UPDATE miejsca_w_salach 
@@ -42,7 +42,7 @@ if(isset($_GET['cancel'])) {
                     mysqli_query($conn, $sql_free);
                 }
                 
-                // 3. Usuń rezerwacje miejsc
+         
                 $sql_delete = "DELETE FROM rezerwacje_miejsc WHERE id_rezerwacji = '$reservation_id'";
                 mysqli_query($conn, $sql_delete);
                 
@@ -61,7 +61,7 @@ if(isset($_GET['cancel'])) {
     }
 }
 
-// Pobierz rezerwacje użytkownika (bez anulowanych)
+
 $sql = "SELECT r.*, f.tytul, f.zdjecie, s.data, s.cena_biletu, sa.sala 
         FROM rezerwacje r 
         JOIN seanse s ON r.id_seansu = s.id_seansu 
@@ -370,7 +370,7 @@ $result = mysqli_query($conn, $sql);
     
     <script>
         function printTicket(reservationCode) {
-            // Utwórz prosty bilet do druku
+  
             const ticketContent = `
                 <html>
                 <head>
