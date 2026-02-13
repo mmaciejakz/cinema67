@@ -1,5 +1,4 @@
 <?php 
-// index.php - PROSTA WERSJA STARTU
 session_start();
 include 'connect.php';
 ?>
@@ -231,7 +230,7 @@ include 'connect.php';
 }
 
 .movie-title {
-    min-height: 48px; /* rezerwuje miejsce na 2 linie tytułu */
+    min-height: 48px; 
 }
 
 .movie-meta {
@@ -239,7 +238,7 @@ include 'connect.php';
 }
 
 .movie-info p {
-    flex-grow: 1;   /* opis rozciąga przestrzeń */
+    flex-grow: 1; 
 }
 .premiere-section {
     position: relative;
@@ -497,7 +496,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <script>
-// ustaw datę premiery
 const premiereDate = new Date("2026-02-20T20:00:00").getTime();
 
 const countdownInterval = setInterval(() => {
