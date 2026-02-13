@@ -1,9 +1,7 @@
 <?php
-// movies.php
 session_start();
 include 'connect.php';
 
-// Pobierz wszystkie filmy z możliwością filtrowania
 $category_filter = isset($_GET['category']) ? mysqli_real_escape_string($conn, $_GET['category']) : '';
 $search_query = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
@@ -93,7 +91,7 @@ $result = mysqli_query($conn, $sql);
             </p>
         </div>
         
-        <!-- Filtry kategorii -->
+        
         <div class="categories-filter">
             <a href="movies.php" class="category-btn <?php echo !$category_filter ? 'active' : ''; ?>">
                 Wszystkie
@@ -110,7 +108,6 @@ $result = mysqli_query($conn, $sql);
             ?>
         </div>
         
-        <!-- Liczba znalezionych filmów -->
         <div style="margin-bottom: 2rem; color: var(--text-gray);">
             <?php
             $count = mysqli_num_rows($result);
@@ -121,12 +118,12 @@ $result = mysqli_query($conn, $sql);
             ?>
         </div>
         
-        <!-- Lista filmów -->
+
         <div class="movies-grid">
             <?php
             if(mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
-                    // Sprawdź dostępność seansów
+         
                     $sql_seanse = "SELECT COUNT(*) as liczba_seansow FROM seanse 
                                    WHERE id_filmu = '{$row['id_filmu']}' AND data >= NOW()";
                     $result_seanse = mysqli_query($conn, $sql_seanse);
