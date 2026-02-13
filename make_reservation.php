@@ -12,14 +12,14 @@ if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $seans_id = mysqli_real_escape_string($conn, $_POST['seans_id']);
     $seats = json_decode($_POST['seats'], true);
-    $user_id = $_SESSION['user_id']; // Zakładam, że user_id jest w sesji
+    $user_id = $_SESSION['user_id']; 
     
     if(!is_array($seats) || empty($seats)) {
         echo json_encode(['success' => false, 'error' => 'Brak wybranych miejsc']);
         exit;
     }
     
-    // Sprawdź dostępność miejsc
+
     foreach($seats as $seat) {
         $seat = intval($seat);
         $sql = "SELECT * FROM rezerwacje_miejsc 
@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     
-    // Utwórz rezerwację
+
     $seats_json = json_encode($seats);
     $sql = "INSERT INTO rezerwacje (id_user, id_seansu, miejsca, status, data_rezerwacji) 
             VALUES ('$user_id', '$seans_id', '$seats_json', 'active', NOW())";
@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(mysqli_query($conn, $sql)) {
         $reservation_id = mysqli_insert_id($conn);
         
-        // Zarezerwuj miejsca
+
         foreach($seats as $seat) {
             $sql = "INSERT INTO rezerwacje_miejsc (id_rezerwacji, id_seansu, numer_miejsca) 
                     VALUES ('$reservation_id', '$seans_id', '$seat')";
